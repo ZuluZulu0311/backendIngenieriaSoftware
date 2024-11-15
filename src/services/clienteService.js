@@ -169,7 +169,6 @@ export async function eliminarCliente(userId) {
   return cliente;
 }
 export const obtenerEstadisticasCliente = async (userId) => {
-  console.log(userId);
 
 
   const id = new mongoose.Types.ObjectId(userId);
@@ -190,8 +189,6 @@ export const obtenerEstadisticasCliente = async (userId) => {
       }
     }
   ]);
-
-  console.log(resultado);
 
   return resultado[0] || { documentosSubidos: 0, documentosDescargados: 0, documentosVistos: 0 };
 }

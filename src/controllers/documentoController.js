@@ -4,7 +4,6 @@ import * as clienteService from "../services/clienteService.js";
 import * as categoriaService from "../services/categoriaService.js";
 import * as documentoService from "../services/documentoService.js";
 import mongoose from "mongoose";
-import { buildPDF } from "../libs/pdfkit.js";
 import { decryptId } from "../libs/encryption.js";
 import { sendEmail } from "../services/emailService.js";
 
@@ -14,7 +13,6 @@ import { sendEmail } from "../services/emailService.js";
 
 //Crear documento
 export async function crearDocumento(req, res) {
-    console.log(req.body)
     try {
         // Asegurarse de que las propiedades sean arrays
         const categorias = Array.isArray(req.body.categoria) ? req.body.categoria : [];
@@ -23,7 +21,6 @@ export async function crearDocumento(req, res) {
 
         // Obtener los ids que se deben validar
         const categoriasIds = categorias.map(c => c.categoriaId); // Extraer categoriaId de cada categoría
-        console.log(categoriasIds);
         const autoresIds = infoAutores.filter(a => a.autorId).map(a => a.autorId); // Solo aquellos que tengan autorId
         const clientesIds = valoraciones.map(v => v.clienteId); // Extraer clienteId de valoraciones
 
@@ -126,7 +123,6 @@ const validarClientesValoracion = async (clientesIds) => {
 export async function documentosPaginados(req, res) {
     try {
         const { page, limit } = req.query;
-        console.log(limit)
         const result = await documentoService.traerDocumentoPaginados(page, limit);
         if (result.data.length == 0) {
             return res.status(404).send('No hay documentos visibles');
@@ -143,8 +139,6 @@ export async function buscarDocumentoID(req, res) {
     const userId = req.body.userId
     try {
         const decryptedId = decryptId(documentoIdBuscar);
-
-        console.log(decryptedId);
         const documento = await documentoService.buscarDocumentoPorId(decryptedId);
         if (!documento) {
             return res.status(404).send("No hay documentos visibles");
@@ -216,7 +210,6 @@ export async function verAutores(req, res) {
 export async function eliminarDocumento(req, res) {
     try {
         const idDocEliminar = req.params.documentoId;
-        console.log(idDocEliminar)
         const docEliminar = await documentoService.buscarDocumentoPorId(idDocEliminar);
         if (!docEliminar) {
             return res.status(400).send("El documento que se desea eliminar no se encuentra en la base de datos");
@@ -232,7 +225,6 @@ export async function eliminarDocumento(req, res) {
 export async function visualizarOtrosDocumentos(req, res) {
     try {
         const nickName = req.params.nickName;
-        console.log(nickName)
         const { page, limit } = req.query;
         const documentosDeEseAutor = await documentoService.DocsDeAutor(nickName, page, limit);
         if (documentosDeEseAutor.data.length === 0) {
@@ -276,8 +268,6 @@ export async function mostrarDocumentoConPDFKit(req, res) {
 export async function actualizarDocumento(req, res) {
     try {
         const idDocumento = req.params.documentoId;
-        console.log(idDocumento)
-        console.log(req.body)
         if (req.body.fechaPublicacion || req.body.fechaUltimaModificacion || req.body.numDescargas || req.body.valoraciones) {
             return res.status(400).send('No se pueden modificar algunos de los campos que desea');
         }

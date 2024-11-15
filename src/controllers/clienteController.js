@@ -112,12 +112,10 @@ export const registrarCliente = async (req, res) => {
     res.status(201).json(cliente);
   } catch (error) {
     res.status(500).send(error.message);
-    console.log(error.message);
   }
 };
 
 export const iniciarSesion = async (req, res) => {
-  console.log(req.body);
   try {
     const { token, cliente } = await clienteAutenticacionService.login(
       req.body
@@ -379,7 +377,6 @@ export const obtenerHistorial = async (req, res) => {
     const historial = await clienteService.obtenerDocumentosVisualizadosyDescargados(idUser)
     res.status(200).json(historial)
   } catch (error) {
-    console.log(error)
     res.status(500).json({ message: "Error al obtener el historial del cliente" })
   }
 }

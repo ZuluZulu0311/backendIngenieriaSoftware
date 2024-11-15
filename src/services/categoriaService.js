@@ -62,7 +62,6 @@ export const eliminarCategoriaId = async (categoriaId) => {
 
         // Finalmente, eliminar la categoría principal
         await categoriaModel.findByIdAndDelete(categoriaId);
-        console.log(`Categoría principal con ID ${categoriaId} eliminada y sus referencias en otras categorías fueron actualizadas.`);
     } catch (error) {
         console.error("Error al eliminar la categoría y sus referencias:", error);
         throw error;
