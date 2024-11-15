@@ -4,7 +4,6 @@ import documentoRoutes from "../src/routers/documentoRouter.js"
 import clienteRoutes from "../src/routers/clienteRouter.js"
 import categoriaRoutes from "../src/routers/categoriaRouter.js"
 import clienteAuthRoutes from "../src/routers/clienteRouterAutenticacion.js";
-import uploadcareRoutes from "../src/routers/uploadcareRouter.js";
 import cors from "cors";
 
 const app = express();
@@ -22,7 +21,6 @@ app.use("/clientes", clienteRoutes);
 app.use("/clientesAuth", clienteAuthRoutes);
 app.use("/categorias", categoriaRoutes);
 
-app.use("/uploadPrueba", uploadcareRoutes);
 
 
 app.listen(3000)
